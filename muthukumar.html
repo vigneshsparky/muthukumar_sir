@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Muthu Kumar BE · Dragon Media</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+
+    body {
+      background: #f5f9ff;
+      color: #1a2639;
+      line-height: 1.5;
+      scroll-behavior: smooth;
+    }
+
+    /* ---------- STICKY HEADER ---------- */
+    .header {
+      position: sticky;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 25, 47, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      padding: 0.9rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .logo h2 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a8ede0, #fed6e3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 500;
+      color: #ccd6f6;
+      font-size: 1.1rem;
+      transition: 0.25s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: #64ffda;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0%;
+      height: 2px;
+      bottom: -6px;
+      left: 0;
+      background: #64ffda;
+      transition: 0.3s ease;
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    /* mobile menu button */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      color: #ccd6f6;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    /* ---------- MAIN CONTENT + ANIMATIONS ---------- */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 2rem 4rem;
+    }
+
+    section {
+      margin-bottom: 5rem;
+      opacity: 0;
+      transform: translateY(25px);
+      animation: fadeUp 0.7s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+    }
+
+    #about { animation-delay: 0.1s; }
+    #services { animation-delay: 0.3s; }
+    #contact { animation-delay: 0.5s; }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* headings */
+    h1 {
+      font-size: 3.2rem;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-bottom: 0.5rem;
+    }
+
+    .highlight {
+      color: #0a192f;
+      background: linear-gradient(145deg, #4facfe, #00f2fe);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subhead {
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: #33415c;
+      margin-bottom: 1.8rem;
+      border-left: 5px solid #0cc0df;
+      padding-left: 1.2rem;
+    }
+
+    /* about card */
+    .about-card {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border-radius: 32px;
+      padding: 2.5rem;
+      box-shadow: 0 25px 45px -12px rgba(0, 50, 80, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .about-card:hover {
+      transform: scale(1.01);
+      box-shadow: 0 30px 55px -15px #0a192f3a;
+    }
+
+    .about-text {
+      font-size: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .about-text i {
+      color: #0cc0df;
+      width: 30px;
+    }
+
+    /* services grid */
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .service-item {
+      background: white;
+      border-radius: 28px;
+      padding: 2.2rem 1.8rem;
+      box-shadow: 0 15px 30px -10px rgba(0, 30, 50, 0.1);
+      transition: all 0.25s ease;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.6);
+      backdrop-filter: blur(4px);
+      animation: cardPop 0.5s ease-out forwards;
+      opacity: 0;
+      transform: scale(0.95);
+    }
+
+    .services-grid .service-item:nth-child(1) { animation-delay: 0.2s; }
+    .services-grid .service-item:nth-child(2) { animation-delay: 0.3s; }
+    .services-grid .service-item:nth-child(3) { animation-delay: 0.4s; }
+    .services-grid .service-item:nth-child(4) { animation-delay: 0.5s; }
+
+    @keyframes cardPop {
+      0% { opacity: 0; transform: scale(0.9); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+
+    .service-item:hover {
+      transform: translateY(-10px) scale(1.02);
+      box-shadow: 0 30px 40px -12px #1a263970;
+      background: #ffffff;
+    }
+
+    .service-icon {
+      font-size: 3rem;
+      margin-bottom: 1.2rem;
+      color: #0e2f4f;
+    }
+
+    .service-item h3 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .service-item p {
+      color: #2d3b55;
+    }
+
+    /* contact row */
+    .contact-row {
+      display: flex;
+      flex-wrap: wrap;
+      background: rgba(10, 25, 47, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: 3rem;
+      padding: 3rem 2.5rem;
+      color: white;
+      gap: 2rem;
+      justify-content: space-between;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.15);
+      transition: 0.3s;
+    }
+
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .contact-info h2 {
+      font-size: 2.3rem;
+      font-weight: 600;
+      background: linear-gradient(130deg, #ffe6b0, #c5c9ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .contact-detail {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.2rem;
+    }
+
+    .contact-detail i {
+      font-size: 1.6rem;
+      color: #64ffda;
+      width: 2rem;
+    }
+
+    .btn {
+      background: transparent;
+      border: 2px solid #64ffda;
+      color: #64ffda;
+      padding: 0.9rem 2.2rem;
+      border-radius: 40px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.25s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #64ffda;
+      color: #0a192f;
+      box-shadow: 0 10px 20px -8px #64ffdaa0;
+    }
+
+    /* footer */
+    .footer {
+      text-align: center;
+      padding: 2rem 0 1rem;
+      font-size: 1rem;
+      color: #4a5b7a;
+    }
+
+    hr {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #a0b8d4, transparent);
+      margin: 2rem 0 0;
+    }
+
+    /* responsive */
+    @media (max-width: 768px) {
+      .header {
+        padding: 0.8rem 1.5rem;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: rgba(10, 25, 47, 0.98);
+        backdrop-filter: blur(12px);
+        flex-direction: column;
+        align-items: center;
+        gap: 1.8rem;
+        padding: 2.5rem 0;
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 0.4s ease-in-out;
+        pointer-events: none;
+      }
+
+      .nav-links.show {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+        pointer-events: all;
+      }
+
+      .menu-toggle {
+        display: block;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+      }
+
+      .contact-row {
+        flex-direction: column;
+        text-align: center;
+        padding: 2rem 1.5rem;
+      }
+
+      .contact-detail {
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 1.5rem 1rem;
+      }
+      .service-item {
+        padding: 1.8rem 1rem;
+      }
+    }
+
+    /* small tweaks */
+    .name-highlight {
+      font-size: 2.8rem;
+      font-weight: 800;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- STICKY HEADER (with mobile toggle) -->
+  <header class="header">
+    <div class="logo">
+      <h2>✦ DRAGON MEDIA</h2>
+    </div>
+    <button class="menu-toggle" id="menuToggle" aria-label="menu">
+      <i class="fas fa-bars"></i>
+    </button>
+    <nav class="nav-links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- ABOUT SECTION -->
+    <section id="about">
+      <div class="about-card">
+        <h1>
+          <span class="name-highlight">Muthu Kumar BE</span>
+          <span class="highlight">Founder & CEO</span>
+        </h1>
+        <div class="subhead">Dragon Media Pvt Ltd · where ideas ignite.</div>
+        <div class="about-text">
+          <p><i class="fas fa-quote-right" style="color:#0cc0df;"></i> I'm Muthu, a creative technologist and entrepreneur. In 2020 I founded <strong>Dragon Media</strong> to craft bold digital stories and result-driven media strategies. With a background in engineering (BE) and a passion for innovation, we help brands take flight.</p>
+          <p><i class="fas fa-bullseye"></i> <strong>Mission:</strong> to deliver futuristic media solutions that resonate and convert.</p>
+          <p><i class="fas fa-map-pin"></i> Based in Chennai · working worldwide</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES SECTION -->
+    <section id="services">
+      <h2 style="font-size: 2.6rem; margin-bottom: 0.5rem;">✦ services that roar</h2>
+      <p style="font-size: 1.2rem; color: #2a3b5a; max-width: 700px;">We blend creativity & tech to build your brand's dragon fire.</p>
+      <div class="services-grid">
+        <div class="service-item">
+          <div class="service-icon"><i class="fas fa-video"></i></div>
+          <h3>Film & content</h3>
+          <p>cinematic ads, brand stories, social cuts — made to stop the scroll.</p>
+        </div>
+        <div class="service-item">
+          <div class="service-icon"><i class="fas fa-bullhorn"></i></div>
+          <h3>digital marketing</h3>
+          <p>SEO, performance campaigns, influencer strategy — scale your presence.</p>
+        </div>
+        <div class="service-item">
+          <div class="service-icon"><i class="fas fa-code"></i></div>
+          <h3>web & interactive</h3>
+          <p>fast, animated, responsive websites (like this one) that convert.</p>
+        </div>
+        <div class="service-item">
+          <div class="service-icon"><i class="fas fa-dragon"></i></div>
+          <h3>brand strategy</h3>
+          <p>identity, voice, positioning — forge a legend around your business.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT SECTION -->
+    <section id="contact">
+      <div class="contact-row">
+        <div class="contact-info">
+          <h2>let's connect</h2>
+          <div class="contact-detail"><i class="fas fa-envelope"></i> muthu@dragonmedia.in</div>
+          <div class="contact-detail"><i class="fas fa-phone-alt"></i> +91 98765 43210</div>
+          <div class="contact-detail"><i class="fab fa-linkedin"></i> /in/muthukumar-dragon</div>
+          <div class="contact-detail"><i class="fab fa-instagram"></i> @dragonmedia.co</div>
+        </div>
+        <div>
+          <a href="mailto:muthu@dragonmedia.in" class="btn"><i class="fas fa-paper-plane"></i> send a message</a>
+        </div>
+      </div>
+    </section>
+
+    <hr>
+    <div class="footer">
+      <p>© 2025 Dragon Media Pvt Ltd — founded by Muthu Kumar BE. All rights reserved.</p>
+    </div>
+  </main>
+
+  <!-- simple JavaScript for mobile menu + smooth sticky feel -->
+  <script>
+    (function() {
+      const menuToggle = document.getElementById('menuToggle');
+      const navLinks = document.getElementById('navLinks');
+      const header = document.querySelector('.header');
+
+      // toggle mobile menu
+      if (menuToggle) {
+        menuToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          navLinks.classList.toggle('show');
+          // animate icon (optional)
+          const icon = menuToggle.querySelector('i');
+          if (navLinks.classList.contains('show')) {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-times');
+          } else {
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        });
+      }
+
+      // close menu after clicking a link (for single page, smooth scroll)
+      document.querySelectorAll('.nav-links a').forEach(link => {
+        link.addEventListener('click', (e) => {
+          // only for mobile: close drawer
+          if (window.innerWidth <= 768) {
+            navLinks.classList.remove('show');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+
+          // smooth scroll to target (optional vanilla js, but default anchor is fine)
+          // we'll keep browser's default # scroll, but we can also make it smoother.
+          e.preventDefault(); // optional: implement smooth push
+          const targetId = link.getAttribute('href'); // "#about"
+          if (targetId && targetId !== '#') {
+            const targetEl = document.querySelector(targetId);
+            if (targetEl) {
+              targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+          }
+        });
+      });
+
+      // optional: close if clicked outside (on mobile)
+      document.addEventListener('click', (event) => {
+        if (window.innerWidth <= 768) {
+          const isClickInsideNav = navLinks.contains(event.target);
+          const isClickToggle = menuToggle.contains(event.target);
+          if (!isClickInsideNav && !isClickToggle && navLinks.classList.contains('show')) {
+            navLinks.classList.remove('show');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.remove('fa-times');
+            icon.classList.add('fa-bars');
+          }
+        }
+      });
+
+      // sticky header shadow on scroll (already sticky via css, but we add subtle change)
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 20) {
+          header.style.background = 'rgba(5, 15, 30, 0.95)';
+        } else {
+          header.style.background = 'rgba(10, 25, 47, 0.85)';
+        }
+      });
+    })();
+  </script>
+
+  <!-- small style fix for initial header background -->
+  <noscript>JavaScript enabled for mobile menu & animation</noscript>
+</body>
+</html>
